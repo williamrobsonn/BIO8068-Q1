@@ -33,7 +33,7 @@ map_xc(cuckoo_call, leaflet.map = TRUE)
 
 
 #Now the calls have been identified and enough is available we can now download
-#and set up working directories. A change from mp3 to .Wav will nee to be carried out.
+#and set up working directories. A change from mp3 to .Wav will need to be carried out.
 
 # Creating subfolders in the RStudio Project for calls ----
 dir.create(file.path("curlew_calls"))
@@ -96,7 +96,7 @@ file.remove(paste0("cuckoo_audio/", unwanted_mp3))
 curlew_wav <- readWave("curlew_audio/Numeniusarquata-call_28039.wav")
 curlew_wav
 
-oscillo(curlew_wav, from = 0.6, to = 0.8) #Zooming very close to see the pitch changes and loudness
+oscillo(curlew_wav, from = 0.6, to = 0.66) #Zooming very close to see the pitch changes and loudness
 
 #Creating a spectrogram with colours for easier viewing
 SpectrogramSingle(sound.file = "curlew_audio/Numeniusarquata-call_28039.wav", min.freq = 1000, 
@@ -114,13 +114,13 @@ plot(cu)
 
 #Now for cuckoos
 
-cuckoo_wav <- readWave("cuckoo_audio/Cuculuscanorus-call_556020.wav")
+cuckoo_wav <- readWave("cuckoo_audio/Cuculuscanorus-call_564940.wav")
 cuckoo_wav
 
-oscillo(cuckoo_wav, from = 9.0, to = 9.5) #To look at the changes in amplitude of the call
+oscillo(cuckoo_wav, from = 0.4, to = 0.6) #To look at the changes in amplitude of the call
 
 #Creating a spectrogram with colours for easier viewing
-SpectrogramSingle(sound.file = "cuckoo_audio/Cuculuscanorus-call_556020.wav", Colors = "Colors") 
+SpectrogramSingle(sound.file = "cuckoo_audio/Cuculuscanorus-call_564940.wav", Colors = "Colors") 
 
 #Also using the ggplot version
 co <- ggspectro(cuckoo_wav, flim=c(0,0.9)) + # y-axis limits in kHz
@@ -131,8 +131,7 @@ co <- ggspectro(cuckoo_wav, flim=c(0,0.9)) + # y-axis limits in kHz
 
 plot(co)
 
-#You can see the large amount of background noise, we only need the outlier data
-#at 4-6 seconds! May need to use other .Wav files for better interpretation
+#This is a much better graph compared to original file used. However, lower quality now...
 
 
 #Mel-frequency cepstral coefficient technique (MFCC) of bird calls ----
@@ -149,7 +148,7 @@ file.copy(from=paste0("cuckoo_audio/",list.files("cuckoo_audio")),
 #Now the analysis can continue using this new 'bird_audio' folder
 
 bird_mfcc <- MFCCFunction(input.dir = "bird_audio",
-                               max.freq=7000) #Changing this to 7,000 as default is 2500 khz
+                               max.freq=6000) #Changing this to 6,000 as default is 2500 khz
 dim(bird_mfcc)
 
 bird_pca <- ordi_pca(bird_mfcc[, -1], scale=TRUE)
